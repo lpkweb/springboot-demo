@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panke.mapper.UserMapper">
+
+    <!--添加用户-->
+    <insert id="saveUser" parameterType="com.panke.entity.User">
+        INSERT INTO user(user_name,password,real_name) VALUES(#{userName},#{password},#{realName})
+    </insert>
+    
+    <resultMap id="userEntity" type="com.panke.entity.User">
+        <id column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="real_name" property="realName" />
+    </resultMap>
+
+    <!--查询所有用户-->
+    <select id="selectAllUsers" resultType="com.panke.entity.User" resultMap="userEntity">
+        SELECT * FROM user;
+    </select>
+
+    <!--修改用户-->
+    <update id="updateUser" parameterType="com.panke.entity.User">
+        UPDATE user SET user_name=#{userName} , password=#{password} , real_name=#{realName} WHERE id=#{id}
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+
+    <!--根据用户id查询用户信息-->
+    <select id="selectUserById" parameterType="java.lang.Integer" resultMap="userEntity">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
+    <!--根据用户名查询所有用户-->
+    <select id="selectUserByName" parameterType="java.lang.String" resultMap="userEntity">
+        SELECT * FROM user WHERE user_name LIKE #{userName}
+    </select>
+
+    <!--统计总人数-->
+    <select id="getUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user;
+    </select>
+</mapper>
